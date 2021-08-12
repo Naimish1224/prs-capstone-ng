@@ -14,6 +14,10 @@
                 <td><input [(ngModel)]="user.userName" class="rounded" type="text" disabled></td>
             </tr>
             <tr>
+                <td>Password:</td>
+                <td><input [(ngModel)]="user.password" class="rounded" type="text" disabled></td>
+            </tr>
+            <tr>
                 <td>Firstname:</td>
                 <td><input [(ngModel)]="user.firstName" class="rounded" type="text" disabled></td>
             </tr>
@@ -40,7 +44,7 @@
          </table>
     </main>
     <span>
-        <span><a routerLink="/user-detail/{{user.id}}" class="btn btn-sm btn-warning">Edit</a></span>
+        <span><a routerLink="/user-edit/{{user.id}}" class="btn btn-sm btn-warning">Edit</a></span>
         <span> | <button (click)="delete()" class="btn btn-sm btn-danger">Delete</button></span>
     </span>
   </div>
