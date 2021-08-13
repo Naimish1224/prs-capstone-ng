@@ -24,7 +24,6 @@ export class ProductCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // populate list of vendors
     this.vendorSvc.get().subscribe(
       res => {
                 this.vendors = res as Vendor[]; 

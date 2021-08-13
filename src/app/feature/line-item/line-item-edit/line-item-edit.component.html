@@ -7,8 +7,8 @@
         <td>
           Product:
         </td>
-        <td>
-          <select [(ngModel)]="lineitem.product" class="rounded">
+        <td *ngIf='lineitem.product'>
+          <select [(ngModel)]="lineitem.product" class="rounded" [compareWith]="compProduct">
             <option *ngFor='let product of products' [ngValue]='product'>
               {{ product.name}}
             </option>
@@ -20,10 +20,12 @@
           Quantity:
         </td>
         <td>
-          <input type="number" id="quantity" name="quantity" min="1" max="10" class = "rounded">
+            <input type="number" id="quantity" name="quantity" min="1" max="10" class = "rounded">
         </td>
+      </tr>
+      <tr>
       </tr>
     </table>
   </main>
-  <span><button (click)="save()" class="btn btn-sm btn-primary">Create</button></span>
+  <span><button (click)="save()" class="btn btn-sm btn-primary">Edit</button></span>
 </div>
