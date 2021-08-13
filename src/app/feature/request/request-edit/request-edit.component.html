@@ -1,79 +1,80 @@
 <section class="heading">
     <span class="page-title font-weight-bold font-italic">{{title}}</span>
     <span> | <a routerLink="/request-list">Return to List</a></span>
-  </section><p *ngIf='!request'>Loading...</p>
-  <div *ngIf='request'>
+</section>
+<p *ngIf='!request'>Loading...</p>
+<div *ngIf='request'>
     <main class="single">
-      <table class="table table-sm">
-        <tr>
-          <td> User:</td>
-          <td>{{request.user.firstName+' '+request.user.lastName}}</td>
-        </tr>
-        <tr>
-          <td>
-            Description:
-          </td>
-          <td>
-            <input [(ngModel)]="request.description" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Justification:
-          </td>
-          <td>
-            <input [(ngModel)]="request.justification" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Date Needed:
-          </td>
-          <td>
-            <input [(ngModel)]="request.dateNeeded" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Delivery:
-          </td>
-          <td>
-            <input [(ngModel)]="request.deliveryMode" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Status:
-          </td>
-          <td>
-            <input [(ngModel)]="request.status" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Total:
-          </td>
-          <td>
-            <input [(ngModel)]="request.total" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Submitted Date:
-          </td>
-          <td>
-            <input [(ngModel)]="request.submitDate" class="rounded" type="text">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Reason For Rejection:
-          </td>
-          <td>
-            <input [(ngModel)]="request.reasonForRejection" class="rounded" type="text">
-          </td>
-        </tr>
-      </table>
+        <table class="table table-sm">
+            <tr>
+                <td> User:</td>
+                <td>{{request.user.firstName+' '+request.user.lastName}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Description:
+                </td>
+                <td>
+                    <input [(ngModel)]="request.description" class="rounded" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Justification:
+                </td>
+                <td>
+                    <input [(ngModel)]="request.justification" class="rounded" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date Needed:
+                </td>
+                <td>
+                    <input [(ngModel)]="request.dateNeeded" class="rounded" type="text">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Delivery:
+                </td>
+                <td>
+                        <select matNativeControl required>
+                          <option value="Pickup">Pickup</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Status:
+                </td>
+                <td>
+                    {{request.status}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total:
+                </td>
+                <td>{{request.total}}</td>
+
+            </tr>
+            <tr>
+                <td>
+                    Submitted Date:
+                </td>
+                <td>{{request.submitDate}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Reason For Rejection:
+                </td>
+                <td>
+                    <input [(ngModel)]="request.reasonForRejection" class="rounded" type="text">
+                </td>
+            </tr>
+        </table>
     </main>
     <span><button (click)="save()" class="btn btn-sm btn-primary">{{submitBtnTitle}}</button></span>
-  </div>
+</div>
