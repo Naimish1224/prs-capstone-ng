@@ -23,17 +23,14 @@ export class RequestCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.request.user = this.systemSvc.loggedInUser;    
+    console.log(this.request.user)
   }
 
   save() {
+       
     this.requestSvc.create(this.request).subscribe(
       resp => {
-        if(this.request.total <= 50)
-        {
-          this.request.status = "Approved"};
-        if(this.request.total > 50) 
-        {
-          this.request.status = "Review"};
+     
         this.request = resp as Request;
         this.router.navigateByUrl("/request-list");
       },

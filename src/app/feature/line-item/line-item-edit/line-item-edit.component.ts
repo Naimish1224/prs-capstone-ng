@@ -19,6 +19,7 @@ export class LineItemEditComponent implements OnInit {
   products: Product[] = [];
   requests: Request[] = [];
   lineitemId: number = 0;
+  units: number = 0;
 
   constructor(
     private lineitemSvc: LineItemService,
@@ -29,6 +30,7 @@ export class LineItemEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     this.route.params.subscribe(parms => this.lineitemId = parms["id"]);
     this.lineitemSvc.get(this.lineitemId).subscribe(
       resp => {
@@ -54,10 +56,11 @@ export class LineItemEditComponent implements OnInit {
   }
 
   save() {
+    this.lineitem.product.unit = this.units;
     this.lineitemSvc.edit(this.lineitem).subscribe(
       resp => {
         this.lineitem = resp as LineItem;
-        this.router.navigateByUrl("/line-item-list");
+        this.router.navigateByUrl("/request-list");
       },
       err => { console.log(err); }
     );

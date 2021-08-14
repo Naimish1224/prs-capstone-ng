@@ -46,10 +46,12 @@ export class LineItemCreateComponent implements OnInit {
   }
 
   save() {
+    
     console.log("create line item:",this.lineItem);
     this.lineItemSvc.create(this.lineItem).subscribe(
       resp => {
         this.lineItem = resp as LineItem;
+      
         this.router.navigateByUrl('/request-lines/'+this.requestId);
       },
       err => { console.log(err) }

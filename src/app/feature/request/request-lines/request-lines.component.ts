@@ -44,6 +44,12 @@ export class RequestLinesComponent implements OnInit {
   }
   
   save() {
+    if(this.request.total <= 50)
+    {
+      this.request.status = "Approved"};
+    if(this.request.total > 50) 
+    {
+      this.request.status = "Review"};
     console.log("Save request lines:",this.request);
     this.requestSvc.create(this.request).subscribe(
       resp => {
