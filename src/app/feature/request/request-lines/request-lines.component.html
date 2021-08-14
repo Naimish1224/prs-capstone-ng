@@ -1,70 +1,60 @@
 <section class="heading">
-  <span class="page-title font-weight-bold font-italic">[{{title}}]</span>
+  <span class="page-title font-weight-bold font-italic">{{title}}</span> |
   <a routerLink='/request-create'>
-    <img width='20' height='20' src='assets/add-icon.png' title='Add New'>
+      <img width='20' height='20' src='assets/add-icon.png' title='Add New'>
   </a>
-</section>
-<table class="table table-sm table-striped">
+  </section>
+<table class="table table-bordered table-striped">
   <thead>
-    <tr>
-      <th>User</th>
-      <th>Description</th>
-      <th>Status</th>
-      <th>Total</th>
-    </tr>
+      <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Total</th>
+      </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>{{ request.user.firstName+' '+request.user.lastName}}</td>
-      <td>{{ request.description}}</td>
-      <td>{{ request.status}}</td>
-      <td>{{ request.total}}</td>
-      <!-- <td>
-        <a routerLink='/request-detail/{{request.id}}'>
-          <img width='20' height='20' src='assets/details.png' title='Request Details'>
-        </a> |
-        <a routerLink='/request-edit/{{request.id}}'>
-          <img width='20' height='20' src='assets/pencil-icon.png' title='Edit Request'>
-        </a>
-        <a routerLink='/request-lines/{{request.id}}'>
-          <img width='20' height='20' src='assets/lines.png' title='Edit Lineitem'>
-        </a>
-      </td> -->
-    </tr>
+      <tr>
+          <td>{{ request.user.firstName + ' ' + request.user.lastName }}</td>
+          <td>{{ request.description }}</td>
+          <td>{{ request.status }}</td>
+          <td>{{ request.total }}</td>
+      </tr>
   </tbody>
 </table>
 <section class="heading">
-  <span class="page-title font-weight-bold font-italic">[{{"Line Items"}}]</span>
-  <a routerLink='/line-items-create'>
-    <img width='20' height='20' src='assets/add-icon.png' title='Add New'>
+  <span class="page-title font-weight-bold font-italic">[{{title2}}]</span> |
+  <a routerLink='/line-item-create/{{request.id}}'>
+      <img width='20' height='20' src='assets/add-icon.png' title='Add New'>
   </a>
-</section>
-<table class="table table-sm table-striped">
+  </section>
+<table class="table table-bordered table-striped">
   <thead>
-    <tr>
-      <th>Vendor</th>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Line Total</th>
-      <th>Action</th>
-    </tr>
+      <tr>
+          <th>Vendor</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Action</th>
+      </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>{{ product.vendor.name}}</td>
-      <td>{{ lineitem.product.name}}</td>
-      <td>{{ lineitem.quantity}}</td>
-      <td>{{ request.status}}</td>
-      <td>{{ request.total}}</td>
-      <td>
-        <a routerLink='/line-item-detail/{{lineitem.id}}'>
-          <img width='20' height='20' src='assets/details.png' title='Line Item Details'>
-        </a> |
-        <a routerLink='/line-item-edit/{{lineitem.id}}'>
-          <img width='20' height='20' src='assets/pencil-icon.png' title='Delete Line Item'>
-        </a>
+      <tr *ngFor='let lineitem of lineItems'>
+          <td>{{ lineitem.product.vendor.name }}</td>
+          <td>{{ lineitem.product.name }}</td>
+          <td>{{ lineitem.quantity }}</td>
+          <td>{{ lineitem.product.price }}</td>
+          <td>{{ lineitem.quantity * lineitem.product.price }}</td>
+          <td> 
+              <a routerLink='/line-item-edit/{{lineitem.id}}'>
+              <img width='20' height='20' src='assets/pencil-icon.png' title='Edit Line Item'>
+              </a> |
+              <a routerLink='/line-item/{{lineitem.id}}'>
+              <img width='20' height='20' src='assets/delete.jpg' title='Delete Line Item'>
+              </a>
       </td>
-    </tr>
+      </tr>
   </tbody>
 </table>
+<span><button (click)="save()" class="btn btn-sm btn-primary">Submit</button></span>

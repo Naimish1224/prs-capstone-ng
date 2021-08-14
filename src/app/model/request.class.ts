@@ -1,4 +1,5 @@
 
+import { getLocaleDateTimeFormat } from "@angular/common";
 import { User } from "./user.class";
 
 export class Request {
@@ -19,11 +20,11 @@ export class Request {
         user: User = new User(),
         description: string = "",
         justification: string = "",
-        dateNeeded: Date = new Date(2000, 1, 1),
+        dateNeeded: Date = new Date(),
         deliveryMode: string = "",
         status: string = "",
         total: number = 0,
-        submitDate: Date = new Date(2000, 1, 1),
+        submitDate: Date = new Date(),
         reasonForRejection: string = ""
     ){
         this.id = id;

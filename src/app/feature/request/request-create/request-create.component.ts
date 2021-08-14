@@ -1,7 +1,9 @@
-import { RequestService } from './../../../service/request.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Request } from '../../../model/request.class';
+import { Request } from 'src/app/model/request.class';
+import { RequestService } from 'src/app/service/request.service';
+import { SystemService } from 'src/app/service/system.service';
+
 
 @Component({
   selector: 'app-request-create',
@@ -10,26 +12,33 @@ import { Request } from '../../../model/request.class';
 })
 export class RequestCreateComponent implements OnInit {
 
-  title: string = 'Request-Create';
+  title: string = "Request-Create";
   request: Request = new Request();
-  submitBtnTitle: string = 'Create';
-
+  
   constructor(
-    private requestSvc: RequestService,
-    private router: Router
+    private requestSvc:RequestService,
+    private systemSvc:SystemService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
+    this.request.user = this.systemSvc.loggedInUser;    
   }
 
   save() {
     this.requestSvc.create(this.request).subscribe(
       resp => {
+        if(this.request.total <= 50)
+        {
+          this.request.status = "Approved"};
+        if(this.request.total > 50) 
+        {
+          this.request.status = "Review"};
         this.request = resp as Request;
         this.router.navigateByUrl("/request-list");
       },
-      err => { console.log(err); }
+      err => {console.log(err)}
     );
-
-  }
+      }
 }
+

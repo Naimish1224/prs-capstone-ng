@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Product } from 'src/app/model/product.class';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LineItem } from 'src/app/model/lineitem.class';
+import { Product } from 'src/app/model/product.class';
 import { Request } from 'src/app/model/request.class';
-import { ProductService } from 'src/app/service/product.service';
 import { LineItemService } from 'src/app/service/lineitem.service';
+import { ProductService } from 'src/app/service/product.service';
 import { RequestService } from 'src/app/service/request.service';
 
 @Component({
@@ -13,42 +13,46 @@ import { RequestService } from 'src/app/service/request.service';
   styleUrls: ['./line-item-create.component.css']
 })
 export class LineItemCreateComponent implements OnInit {
-  title: string = 'LineItem-Create';
-  lineitem: LineItem = new LineItem();
+
+  title: string = "Line-Item-Create";
+  lineItem: LineItem = new LineItem();
+  submitBtnTitle: string = "Create";
+  request: Request = new Request();
   products: Product[] = [];
-  requests: Request[] = [];
+  requestId: number = 0;
+
 
   constructor(
-    private lineitemSvc: LineItemService,
-    private productSvc: ProductService,
+    private lineItemSvc: LineItemService,
     private requestSvc: RequestService,
-    private router: Router
-  ) { }
+    private productSvc: ProductService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.productSvc.list().subscribe(
-      resp => {
-        this.products = resp as Product[];
-      },
+    this.route.params.subscribe(parms => this.requestId = parms["id"]);
+    console.log('line item create, id = '+this.requestId);
+    this.requestSvc.get(this.requestId).subscribe(
+      resp => { 
+        this.lineItem.request = resp as Request;
+        console.log("Line Item Create, request for LI:",this.lineItem.request);
+       },
       err => { console.log(err); }
     );
-
-    this.requestSvc.list().subscribe(
-      resp => {
-        this.requests = resp as Request[];
-      },
+    this.productSvc.list().subscribe(
+      resp => { this.products = resp as Product[]; },
       err => { console.log(err); }
     );
   }
 
   save() {
-    this.lineitemSvc.create(this.lineitem).subscribe(
+    console.log("create line item:",this.lineItem);
+    this.lineItemSvc.create(this.lineItem).subscribe(
       resp => {
-        this.lineitem = resp as LineItem;
-        this.router.navigateByUrl("/line-item-list");
+        this.lineItem = resp as LineItem;
+        this.router.navigateByUrl('/request-lines/'+this.requestId);
       },
-      err => { console.log(err); }
+      err => { console.log(err) }
     );
-
   }
 }

@@ -1,14 +1,9 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Request } from 'src/app/model/request.class';
-import { RequestService } from 'src/app/service/request.service';
 import { LineItem } from 'src/app/model/lineitem.class';
+import { Request } from 'src/app/model/request.class';
 import { LineItemService } from 'src/app/service/lineitem.service';
-import { Product } from 'src/app/model/product.class';
-import { Vendor } from 'src/app/model/vendor.class';
-import { ProductService } from 'src/app/service/product.service';
-import { VendorService } from 'src/app/service/vendor.service';
+import { RequestService } from 'src/app/service/request.service';
 
 @Component({
   selector: 'app-request-lines',
@@ -16,42 +11,46 @@ import { VendorService } from 'src/app/service/vendor.service';
   styleUrls: ['./request-lines.component.css']
 })
 export class RequestLinesComponent implements OnInit {
-  request: Request = new Request();
-  vendor: Vendor = new Vendor();
-  product: Product = new Product();
-  lineitem: LineItem = new LineItem();
+
+  title: string = "Purchase Request Line Items";
   requestId: number = 0;
-  lineitemId: number = 0;
-  title: string = 'Purchase Request Line Items';
+  request: Request = new Request();
+  lineItems: LineItem[] = [];
+  title2: string = "Line Items";
   
 
-  constructor(private requestSvc: RequestService, private lineitemSvc: LineItemService,
-    private productSvc: ProductService,  private vendorSvc: VendorService,
-    private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private requestSvc: RequestService,
+    private lineItemSvc: LineItemService,
+    private router: Router,
+    private route: ActivatedRoute
+       ) { }
 
-    ngOnInit(): void {
-      this.route.params.subscribe(parms => this.requestId = parms["id"]);
-      this.requestSvc.get(this.requestId).subscribe(
-        res => {
-          this.request = res as Request;
-        },
-        err => { console.log(err); }
-      );
-      this.lineitemSvc.get(this.requestId).subscribe(
-        res => {
-          this.lineitem = res as LineItem;
-        },
-        err => { console.log(err); }
-      );
-      this.route.params.subscribe(parms => this.requestId = parms["id"]);
-    console.log('user detail, id=',this.requestId);
+  ngOnInit(): void {
+    // 1. get request for id passed in URL
+    this.route.params.subscribe(parms => this.requestId = parms["id"]);
     this.requestSvc.get(this.requestId).subscribe(
-      resp => {
-        this.request = resp as Request;
-      },
-      err => { console.log(err); }
+      resp => { this.request = resp as Request;},
+            err=> {console.log(err);}
     );
 
-    }
+    // 2. get line items for the request
+    this.route.params.subscribe(parms => this.requestId = parms["id"]);
+    this.lineItemSvc.getLines(this.requestId).subscribe(
+      resp => { this.lineItems = resp as LineItem[];},
+            err=> {console.log(err);}
+    );
 
+  }
+  
+  save() {
+    console.log("Save request lines:",this.request);
+    this.requestSvc.create(this.request).subscribe(
+      resp => {
+        this.request = resp as Request;
+        this.router.navigateByUrl('/request-list');
+      },
+      err => { console.log(err) }
+    );
+  }
 }
