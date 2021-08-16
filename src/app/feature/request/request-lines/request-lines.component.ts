@@ -27,14 +27,12 @@ export class RequestLinesComponent implements OnInit {
        ) { }
 
   ngOnInit(): void {
-    // 1. get request for id passed in URL
     this.route.params.subscribe(parms => this.requestId = parms["id"]);
     this.requestSvc.get(this.requestId).subscribe(
       resp => { this.request = resp as Request;},
             err=> {console.log(err);}
     );
 
-    // 2. get line items for the request
     this.route.params.subscribe(parms => this.requestId = parms["id"]);
     this.lineItemSvc.getLines(this.requestId).subscribe(
       resp => { this.lineItems = resp as LineItem[];},
@@ -42,16 +40,31 @@ export class RequestLinesComponent implements OnInit {
     );
 
   }
+  status() {
+    console.log("Review request lines:", this.request);
+    this.requestSvc.status(this.request).subscribe(
+      resp => {
+        this.request = resp as Request;
+        this.router.navigateByUrl('/request-list');
+      },
+      err => {console.log(err)}
+    );
+  }
+  listReview() {
+    console.log("List of requests:", this.request);
+    this.requestSvc.status(this.request).subscribe(
+      resp => {
+        this.request = resp as Request;
+        this.router.navigateByUrl('/request-list');
+      },
+      err => {console.log(err)}
+    );
+  }
   
   save() {
-    if(this.request.total <= 50)
-    {
-      this.request.status = "Approved"};
-    if(this.request.total > 50) 
-    {
-      this.request.status = "Review"};
     console.log("Save request lines:",this.request);
     this.requestSvc.create(this.request).subscribe(
+      
       resp => {
         this.request = resp as Request;
         this.router.navigateByUrl('/request-list');
@@ -59,4 +72,5 @@ export class RequestLinesComponent implements OnInit {
       err => { console.log(err) }
     );
   }
+  
 }

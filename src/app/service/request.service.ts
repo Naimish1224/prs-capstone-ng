@@ -30,6 +30,14 @@ export class RequestService {
   edit(request: Request): Observable<Request> {
     return this.http.put(URL + "/", request) as Observable<Request>;
   }
+  status(request: Request): Observable<Request> {
+    return this.http.put(URL + "/submit-review", request) as Observable<Request>;
+  }
+
+  listReview(request: Request): Observable<Request[]>{
+    return this.http.get(URL + "/list-review" + request) as Observable<Request[]>;
+  }
+  
 
   delete(id: number): Observable<Request> {
     return this.http.delete(URL + '/' + id) as Observable<Request>;

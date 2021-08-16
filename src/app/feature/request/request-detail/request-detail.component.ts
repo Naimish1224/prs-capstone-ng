@@ -32,8 +32,8 @@ export class RequestDetailComponent implements OnInit {
 
   delete() {
     this.requestSvc.delete(this.requestId).subscribe(
-      res => {
-        this.request = res as Request;
+      resp => {
+        this.request = resp as Request;
         this.router.navigateByUrl('/request-list');
       },
       err => {
