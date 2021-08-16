@@ -34,7 +34,7 @@ export class LineItemDetailComponent implements OnInit {
     this.lineitemSvc.delete(this.lineitemId).subscribe(
       resp => {
         this.lineitem = resp as LineItem;
-        this.router.navigateByUrl('/line-item-detail');
+        this.router.navigateByUrl('/request-lines/'+this.lineitem.request.id);
       },
       err => {
         console.log(err);

@@ -15,11 +15,10 @@ import { RequestService } from 'src/app/service/request.service';
 })
 export class LineItemEditComponent implements OnInit {
   title: string = 'LineItem-Edit';
-  lineitem: any = null;
+  lineitem: LineItem = new LineItem();
   products: Product[] = [];
   requests: Request[] = [];
   lineitemId: number = 0;
-  units: number = 0;
 
   constructor(
     private lineitemSvc: LineItemService,
@@ -39,6 +38,8 @@ export class LineItemEditComponent implements OnInit {
       err => { console.log(err); }
     );
 
+    
+
     this.productSvc.list().subscribe(
       resp => {
         this.products = resp as Product[];
@@ -56,16 +57,17 @@ export class LineItemEditComponent implements OnInit {
   }
 
   save() {
-    this.lineitem.product.unit = this.units;
     this.lineitemSvc.edit(this.lineitem).subscribe(
       resp => {
         this.lineitem = resp as LineItem;
-        this.router.navigateByUrl("/request-list");
+        this.router.navigateByUrl('/request-lines/'+this.lineitem.request.id);
       },
       err => { console.log(err); }
     );
 
   }
+
+  
 
   compProduct(a: Product, b: Product): boolean {
     return a && b && a.id === b.id;
