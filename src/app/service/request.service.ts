@@ -34,8 +34,8 @@ export class RequestService {
     return this.http.put(URL + "/submit-review", request) as Observable<Request>;
   }
 
-  listReview(request: Request): Observable<Request[]>{
-    return this.http.get(URL + "/list-review" + request) as Observable<Request[]>;
+  listReview(userId: number): Observable<Request[]> {
+    return this.http.get(URL + "/list-review/" + userId) as Observable<Request[]>;
   }
   
 

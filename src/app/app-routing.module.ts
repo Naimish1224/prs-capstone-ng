@@ -43,7 +43,7 @@ const routes: Routes = [
   { path: 'request-edit/:id', component: RequestEditComponent},
   { path: 'request-create', component: RequestCreateComponent},
   { path: 'request-lines/:id', component: RequestLinesComponent},
-  { path: 'request-review/:id', component: RequestReviewComponent},
+  { path: 'request-review', component: RequestReviewComponent},
   { path: 'line-item-create/:id', component: LineItemCreateComponent},
   { path: 'line-item-detail/:id', component: LineItemDetailComponent},
   { path: 'line-item-edit/:id', component: LineItemEditComponent},
