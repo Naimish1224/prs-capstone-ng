@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from './../../../service/request.service';
 import { Component, OnInit } from '@angular/core';
 import { Request } from '../../../model/request.class';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-request-edit',
@@ -18,10 +19,12 @@ export class RequestEditComponent implements OnInit {
   constructor(
     private requestSvc: RequestService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.requestId = parms["id"]);
     this.requestSvc.get(this.requestId).subscribe(
       resp => {

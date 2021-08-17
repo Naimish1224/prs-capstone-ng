@@ -1,5 +1,6 @@
 import { MenuItem } from './../../model/menu-item.class';
 import { Component, OnInit } from '@angular/core';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +11,9 @@ export class MenuComponent implements OnInit {
 
   menuItems: MenuItem[] = [];
 
-  constructor() { }
+  constructor(
+    private sysSvc: SystemService
+  ) { }
 
   ngOnInit(): void {
     this.menuItems = [
@@ -19,9 +22,14 @@ export class MenuComponent implements OnInit {
       new MenuItem("Vendor", "/vendor-list", "Vendor List"),
       new MenuItem("Request", "/request-list", "Request List"),
       new MenuItem("Review", "/request-review", "Review"),
-      new MenuItem("Login", "/user-login", "User Login")
+      new MenuItem("Logout", "/user-login", "User Login")
       
     ];
+
+    // let displayStr = (this.sysSvc.loggedInUser.id == 0) ? "Login" : "Logout";
+    // this.menuItems.push(new MenuItem(displayStr, "/user-login", "User Login"));
+
+
   }
 
 }

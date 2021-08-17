@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/model/product.class';
 import { ProductService } from 'src/app/service/product.service';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -17,10 +18,12 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productSvc: ProductService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.productId = parms["id"]);
     this.productSvc.get(this.productId).subscribe(
       res => {

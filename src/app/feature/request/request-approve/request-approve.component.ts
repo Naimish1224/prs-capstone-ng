@@ -7,13 +7,13 @@ import { RequestService } from 'src/app/service/request.service';
 import { SystemService } from 'src/app/service/system.service';
 
 @Component({
-  selector: 'app-request-lines',
-  templateUrl: './request-lines.component.html',
-  styleUrls: ['./request-lines.component.css']
+  selector: 'app-request-approve',
+  templateUrl: './request-approve.component.html',
+  styleUrls: ['./request-approve.component.css']
 })
-export class RequestLinesComponent implements OnInit {
+export class RequestApproveComponent implements OnInit {
 
-  title: string = "Purchase Request Line Items";
+  title: string = "Purchase Request Approve/Reject";
   requestId: number = 0;
   request: Request = new Request();
   lineItems: LineItem[] = [];
@@ -44,7 +44,7 @@ export class RequestLinesComponent implements OnInit {
 
   }
   status() {
-    console.log("Review request lines:", this.request);
+    console.log("Approve request:", this.request);
     this.requestSvc.status(this.request).subscribe(
       resp => {
         this.request = resp as Request;
@@ -65,7 +65,7 @@ export class RequestLinesComponent implements OnInit {
   }
   
   save() {
-    console.log("Save request lines:",this.request);
+    console.log("Save request approve:",this.request);
     this.requestSvc.create(this.request).subscribe(
       
       resp => {
@@ -75,5 +75,29 @@ export class RequestLinesComponent implements OnInit {
       err => { console.log(err) }
     );
   }
+
+  approve() {
+    this.requestSvc.approve(this.request).subscribe(
+      resp => {
+        this.request = resp as Request;
+        this.router.navigateByUrl('/request-list');
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  } 
+
+  reject() {
+    this.requestSvc.reject(this.request).subscribe(
+      resp => {
+        this.request = resp as Request;
+        this.router.navigateByUrl('/request-list');
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  } 
   
 }

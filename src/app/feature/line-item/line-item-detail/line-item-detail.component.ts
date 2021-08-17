@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LineItem } from 'src/app/model/lineitem.class';
 import { LineItemService } from 'src/app/service/lineitem.service';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-lineitem-detail',
@@ -17,10 +18,12 @@ export class LineItemDetailComponent implements OnInit {
   constructor(
     private lineitemSvc: LineItemService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.lineitemId = parms["id"]);
     this.lineitemSvc.get(this.lineitemId).subscribe(
       resp => {

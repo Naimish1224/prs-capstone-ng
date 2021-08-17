@@ -16,11 +16,12 @@ export class RequestReviewComponent implements OnInit {
 
   constructor(
     private requestSvc: RequestService,
-    private systemSvc: SystemService
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
-    this.requestSvc.listReview(this.systemSvc.loggedInUser.id).subscribe(
+    this.sysSvc.checkLogin();
+    this.requestSvc.listReview(this.sysSvc.loggedInUser.id).subscribe(
       resp => {
         this.requests = resp as Request[];
       },

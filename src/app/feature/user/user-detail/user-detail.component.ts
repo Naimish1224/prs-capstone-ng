@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SystemService } from 'src/app/service/system.service';
 import { User } from '../../../model/user.class';
 import { UserService } from '../../../service/user.service';
 
@@ -17,10 +18,12 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private userSvc: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.userId = parms["id"]);
     console.log('user detail, id=',this.userId);
     this.userSvc.getById(this.userId).subscribe(

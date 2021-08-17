@@ -18,10 +18,12 @@ export class RequestCreateComponent implements OnInit {
   constructor(
     private requestSvc:RequestService,
     private systemSvc:SystemService,
-    private router:Router
+    private router:Router,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.request.user = this.systemSvc.loggedInUser;    
     console.log(this.request.user)
   }

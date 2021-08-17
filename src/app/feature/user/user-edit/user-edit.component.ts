@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../model/user.class';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -18,10 +19,12 @@ export class UserEditComponent implements OnInit {
   constructor(
     private userSvc: UserService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.userId = parms["id"]);
     this.userSvc.getById(this.userId).subscribe(
       resp => {

@@ -2,6 +2,7 @@ import { UserService } from './../../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../../../model/user.class';
+import { SystemService } from 'src/app/service/system.service';
 
 @Component({
   selector: 'app-user-create',
@@ -16,10 +17,12 @@ export class UserCreateComponent implements OnInit {
 
   constructor(
     private userSvc: UserService,
-    private router: Router
+    private router: Router,
+    private sysSvc: SystemService
   ) { }
 
   ngOnInit(): void {
+    this.sysSvc.checkLogin();
   }
 
   save() {

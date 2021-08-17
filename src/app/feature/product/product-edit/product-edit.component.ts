@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from 'src/app/model/product.class';
 import { Vendor } from 'src/app/model/vendor.class';
 import { ProductService } from 'src/app/service/product.service';
+import { SystemService } from 'src/app/service/system.service';
 import { VendorService } from 'src/app/service/vendor.service';
 
 @Component({
@@ -15,20 +16,20 @@ export class ProductEditComponent implements OnInit {
   title: string = "Product-Edit";
   product: Product = new Product();
   vendors: Vendor[] = [];
-  submitBtnTitle: string = 'Edit';
+  submitBtnTitle: string = 'Save';
   productId: number = 0;
-  
+
   constructor(
     private productSvc: ProductService,
     private vendorSvc: VendorService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sysSvc: SystemService
 
   ) { }
 
   ngOnInit(): void {
-
-    // get the credit to edit
+    this.sysSvc.checkLogin();
     this.route.params.subscribe(parms => this.productId = parms["id"]);
     this.productSvc.get(this.productId).subscribe(
       resp => {
@@ -37,14 +38,13 @@ export class ProductEditComponent implements OnInit {
       err => { console.log(err); }
     );
 
-    // populate list of vendors
     this.vendorSvc.get().subscribe(
       res => {
-        this.vendors = res as Vendor[]; 
-        console.log("List of Vendors: ", this.vendors); 
+        this.vendors = res as Vendor[];
+        console.log("List of Vendors: ", this.vendors);
       },
-      err => { 
-        console.log(err); 
+      err => {
+        console.log(err);
       }
     );
   }
